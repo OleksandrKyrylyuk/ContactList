@@ -2,7 +2,6 @@ import ReactDOM from "react-dom";
 import { Fragment, Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
-
 // Import styles
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
@@ -14,7 +13,10 @@ import AddContact from "./Components/AddContact/AddContact";
 import EditContact from "./Components/EditContact/EditContact";
 
 class App extends Component {
+   
+    
 
+    
 
     state = {
         List: [
@@ -108,6 +110,7 @@ class App extends Component {
     }
 
     render() {
+       
         const { List, CurrentContact } = this.state;
         return (
             <Fragment>
