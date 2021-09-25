@@ -48,7 +48,8 @@ class App extends Component {
                 Avatar: 33
             }
         ],
-        CurrentContact: ""
+        CurrentContact: "",
+        SearchValue: ""
     }
 
     onStateChange = (Id) => {
@@ -109,14 +110,20 @@ class App extends Component {
 
     }
 
+    onSearch = (search) => {
+       console.log(search);
+        return this.setState({SearchValue: search});
+    }
+
     render() {
-       
-        const { List, CurrentContact } = this.state;
+        const { CurrentContact, SearchValue } = this.state;
+        const visibleItem = this.state.List.filter( ({Name}) => Name.toLocaleLowerCase().indexOf(SearchValue.toLocaleLowerCase()) > - 1 );
+        
         return (
             <Fragment>
                 <Router>
                     <Switch>
-                        <Route path="/" exact render={() => (<Main onGetCurrentIndex={this.onGetCurrentIndex} List={List} onDelete={this.onDelete} onStateChange={this.onStateChange} />
+                        <Route path="/" exact render={() => (<Main onGetCurrentIndex={this.onGetCurrentIndex} onSearch={this.onSearch} List={visibleItem} onDelete={this.onDelete} onStateChange={this.onStateChange} />
                         )} />
                         <Route path="/new-contact" exact render={() => (<AddContact onAddNewContact={this.onAddNewContact} />)} />
                         <Route path="/edit-contact" exact render={() => <EditContact onEditContact={this.onEditContact} CurrentContact={CurrentContact} />} />

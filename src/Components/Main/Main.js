@@ -2,12 +2,13 @@ import ContactList from "./ContactList/ContactList";
 import SideBar from "../SideBar/SideBar";
 import { Link } from "react-router-dom";
 
-const Main = ({ List, onStateChange, onDelete, onGetCurrentIndex }) => {
+const Main = ({ List, onStateChange, onDelete, onGetCurrentIndex, onSearch }) => {
     let friendCounter = 0
     let privateCounter = 0
     let workCounter = 0
     let familyCounter = 0
 
+    
     for (let i = 0; i < List.length; i++) {
         if (List[i].Status === "Friend") {
             friendCounter++;
@@ -35,7 +36,7 @@ const Main = ({ List, onStateChange, onDelete, onGetCurrentIndex }) => {
 
                         <form className="ac-custom ac-checkbox ac-checkmark" autoComplete="off">
                             <div className="input-group">
-                                <input type="text" className="contacts-list-search" placeholder="Search" />
+                                <input type="text" className="contacts-list-search" placeholder="Search" onChange={e => onSearch(e.target.value)}/>
                             </div>
                             <div className="unit head">
                                 <div className="field name">
