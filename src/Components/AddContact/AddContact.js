@@ -92,7 +92,7 @@ class AddContact extends Component {
             return <Redirect to="/" />
         }
 
-        if ((Avatar == null || Avatar == "") || Gender == "") {
+        if ((Avatar === null || Avatar === "") || Gender === "") {
             Avatar = "https://thumbs.dreamstime.com/z/default-avatar-profile-icon-vector-social-media-user-photo-183042379.jpg"
         }
         else {

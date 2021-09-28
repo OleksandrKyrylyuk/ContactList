@@ -1,6 +1,5 @@
 import { Component } from "react";
 import { Redirect } from "react-router-dom";
-import { v4 as uuidv4 } from 'uuid';
 
 
 // Import styles
@@ -93,7 +92,7 @@ class EditContact extends Component {
             return <Redirect to="/" />
         }
 
-        if ((Avatar == null || Avatar == "") || Gender == "") {
+        if ((Avatar === null || Avatar === "") || Gender === "") {
             Avatar = "https://thumbs.dreamstime.com/z/default-avatar-profile-icon-vector-social-media-user-photo-183042379.jpg"
         }
         else {

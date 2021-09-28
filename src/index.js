@@ -1,7 +1,6 @@
 import ReactDOM from "react-dom";
 import { Fragment, Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { v4 as uuidv4 } from 'uuid';
 // Import styles
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
@@ -17,41 +16,27 @@ import Service from './services/ApiServices';
 class App extends Component {
    
     state = {
-        List: [
-            {
-                Id: uuidv4(),
-                Name: "Alexander Verdnam",
-                Phone: "+1-800-600-9898",
-                Email: "example@gmail.com",
-                Gender: "lego",
-                Status: "Friend",
-                Avatar: 4
-            },
-            {
-                Id: uuidv4(),
-                Name: "Camilla Terry",
-                Phone: "+1-800-456-5890",
-                Email: "camt@gmail.com",
-                Gender: "women",
-                Status: "Private",
-                Avatar: 16
-            },
-            {
-                Id: uuidv4(),
-                Name: "Evan Piters",
-                Phone: "+1-457-090-2345",
-                Email: "evan@gmail.com",
-                Gender: "men",
-                Status: "Work",
-                Avatar: 33
-            }
-        ],
+        List: [],
         CurrentContact: "",
         SearchValue: ""
     }
 
     componentDidMount() {
-        Service.GetList().then(res => this.setState({ List:res }));
+        const getList = async () => {
+            const list =  await Service.GetList();
+            this.setState({
+                List:list
+            })
+        };
+        getList();
+    }
+
+    shouldComponentUpdate(nextProps, nextState){
+        if (nextState === this.state){
+            return false
+        }
+        Service.UpdateList(nextState.List)
+        return true;
     }
 
     onStateChange = (Id) => {
@@ -93,6 +78,7 @@ class App extends Component {
         this.setState({
             List: tmpList
         })
+       
     }
 
     onGetCurrentIndex = (Id) => {
@@ -119,7 +105,6 @@ class App extends Component {
     render() {
         const { CurrentContact, SearchValue } = this.state;
         const visibleItem = this.state.List.filter( ({Name}) => Name.toLocaleLowerCase().indexOf(SearchValue.toLocaleLowerCase()) > - 1 );
-        
         return (
             <Fragment>
                 <Router>

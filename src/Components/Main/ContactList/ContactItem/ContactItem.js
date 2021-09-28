@@ -24,7 +24,7 @@ const ContactItem = ({ Name, Avatar, Phone, Email, Status, Gender, onStateChange
 
                 </div>
                 <div>
-                    <img src={image} alt="image" className="avatar" /> {Name}
+                    <img src={image} alt="Contact foto" className="avatar" /> {Name}
                 </div>
                 <div className={statusColor} onClick={onStateChange} >{Status}</div>
             </div>
