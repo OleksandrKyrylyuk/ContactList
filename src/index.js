@@ -12,12 +12,10 @@ import NotFound from "./Components/NotFound/NotFound"
 import AddContact from "./Components/AddContact/AddContact";
 import EditContact from "./Components/EditContact/EditContact";
 
+import Service from './services/ApiServices';
+
 class App extends Component {
    
-    
-
-    
-
     state = {
         List: [
             {
@@ -50,6 +48,10 @@ class App extends Component {
         ],
         CurrentContact: "",
         SearchValue: ""
+    }
+
+    componentDidMount() {
+        Service.GetList().then(res => this.setState({ List:res }));
     }
 
     onStateChange = (Id) => {
@@ -111,7 +113,6 @@ class App extends Component {
     }
 
     onSearch = (search) => {
-       console.log(search);
         return this.setState({SearchValue: search});
     }
 
