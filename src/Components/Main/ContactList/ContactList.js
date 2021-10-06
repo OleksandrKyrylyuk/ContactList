@@ -12,14 +12,11 @@ const ContactList = ( {List, GetAllContacts} ) => {
 
     useEffect(() => {
         Service.GetList()
-            .then(data => GetAllContacts(data) )
-    },[0]);
+            .then(data => GetAllContacts(data))
+    },[GetAllContacts]);
 
     const contact = List.map(item => {
-        return (<ContactItem key={item.Id} {...item}
-            onStateChange={() => {}}
-            onDelete={() => {}}
-            onGetCurrentIndex={() => {} }/>)
+        return (<ContactItem key={item.Id} {...item}/>)
     })
 
     return (

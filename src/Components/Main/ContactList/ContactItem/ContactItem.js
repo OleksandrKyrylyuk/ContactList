@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { DeleteContact } from "../../../../actions/contactListActions";
+import Service from '../../../../services/ApiServices';
 
-const ContactItem = ({ Name, Avatar, Phone, Email, Status, Gender, onStateChange, onDelete, onGetCurrentIndex }) => {
-
+const ContactItem = ({ Id , Name, Avatar, Phone, Email, Status, Gender, List, DeleteContact}) => {
     const image = `https://api.randomuser.me/portraits/${Gender}/${Avatar}.jpg`
 
     let statusColor = "";
@@ -11,6 +13,13 @@ const ContactItem = ({ Name, Avatar, Phone, Email, Status, Gender, onStateChange
         case "Family": statusColor = "lab lab-primary"; break;
         case "Private": statusColor = "lab lab-danger"; break;
         default:
+    }
+
+    const onDelete = id => {
+        const index = List.findIndex( el => el.Id === Id);
+        const tmpList = [...List.slice(0, index), ...List.slice(index + 1)];
+        DeleteContact(tmpList);
+        Service.UpdateList(tmpList);
     }
 
     return (
@@ -26,7 +35,7 @@ const ContactItem = ({ Name, Avatar, Phone, Email, Status, Gender, onStateChange
                 <div>
                     <img src={image} alt="Contact foto" className="avatar" /> {Name}
                 </div>
-                <div className={statusColor} onClick={onStateChange} >{Status}</div>
+                <div className={statusColor} onClick={() => {}} >{Status}</div>
             </div>
             <div className="field phone">
                 {Phone}
@@ -36,7 +45,7 @@ const ContactItem = ({ Name, Avatar, Phone, Email, Status, Gender, onStateChange
             </div>
             <div className="contactIcons">
                 <Link to="/edit-contact">
-                    <i className="far fa-edit fa-2x" onClick={onGetCurrentIndex} ></i>
+                    <i className="far fa-edit fa-2x" onClick={ () => {}} ></i>
                 </Link>
                 <i className="far fa-trash-alt fa-2x" onClick={onDelete}></i>
             </div>
@@ -44,4 +53,11 @@ const ContactItem = ({ Name, Avatar, Phone, Email, Status, Gender, onStateChange
     )
 }
 
-export default ContactItem;
+const mapStateToProps = ({ContactListReducer}) => {
+    const { List } = ContactListReducer;
+    return { List };
+}
+
+const mapDispatchToProps = ( {DeleteContact} );
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactItem);

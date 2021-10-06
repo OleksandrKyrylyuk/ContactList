@@ -1,123 +1,64 @@
-import { Component } from "react";
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
+import { ContactAdd } from '../../actions/contactListActions';
+import Service from '../../services/ApiServices';
 
 // Import styles
 import "./AddContact.css";
 
 
-class AddContact extends Component {
+const AddContact = ( {ContactAdd, List} ) =>  {
+    const history = useHistory();        
 
-    state = {
-        Name: "",
-        Phone: "",
-        Email: "",
-        Gender: "",
-        Status: "",
-        Avatar: null,
-        IsRedirect: false
+    let contact = {
+        Id: uuidv4(),
+        Name:"",
+        Phone:"",
+        Email:"",
+        Gender:"",
+        Status:"",
+        Avatar:""
     }
 
-    onGetName = (e) => {
-        const name = e.target.value;
-        this.setState({
-            Name: name
-        })
-    }
-
-    onGetPhone = (e) => {
-        const phone = e.target.value;
-        this.setState({
-            Phone: phone
-        })
-    }
-
-    onGetEmail = (e) => {
-        const email = e.target.value;
-        this.setState({
-            Email: email
-        })
-    }
-
-    onGetGender = (e) => {
-        const gender = e.target.value;
-        this.setState({
-            Gender: gender
-        })
-    }
-
-    onGetStatus = (e) => {
-        const status = e.target.value;
-        this.setState({
-            Status: status
-        })
-    }
-
-    onGetAvatar = (e) => {
-        const avatar = e.target.value;
-        this.setState({
-            Avatar: avatar
-        })
-    }
-
-
-    onCreateContact = (e) => {
+    const createContact = async (e) => {
         e.preventDefault();
-        const { Name, Phone, Email, Gender, Status, Avatar } = this.state
-
-        const { onAddNewContact } = this.props;
-        const newContact = {
-            Id: uuidv4(),
-            Name,
-            Phone,
-            Email,
-            Gender,
-            Status,
-            Avatar
-        }
-
-        onAddNewContact(newContact)
-        this.setState({
-            IsRedirect: true
-        })
+        const tmpList = [...List];
+        tmpList.push(contact);
+        ContactAdd(tmpList);
+        await Service.UpdateList(tmpList);
+        history.push("/");
     }
 
-
-
-    render() {
-        let { Gender, Avatar, IsRedirect } = this.state;
-
-        if (IsRedirect === true) {
-            return <Redirect to="/" />
-        }
-
-        if ((Avatar === null || Avatar === "") || Gender === "") {
-            Avatar = "https://thumbs.dreamstime.com/z/default-avatar-profile-icon-vector-social-media-user-photo-183042379.jpg"
+    let src;
+    if ((contact.Avatar === null || contact.Avatar === "") || contact.Gender === "") {
+            src = "https://thumbs.dreamstime.com/z/default-avatar-profile-icon-vector-social-media-user-photo-183042379.jpg"
         }
         else {
-            Avatar = `https://api.randomuser.me/portraits/${Gender}/${Avatar}.jpg`
+            src = `https://api.randomuser.me/portraits/${contact.Gender}/${contact.Avatar}.jpg`
         }
-        return (
+
+     return (
             <div className="container">
                 <div className="row">
                     <div className="col-8">
-                        <form onSubmit={this.onCreateContact}>
+                        <form onSubmit={(e) => createContact(e)}>
                             <div className="form-group">
                                 <label htmlFor="exampleInputPassword1">Name</label>
-                                <input required type="text" className="form-control" name="Name" onChange={this.onGetName} />
+                                <input required type="text" className="form-control" name="Name" onChange={e => contact.Name = e.target.value} />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="exampleInputPassword1">Phone</label>
-                                <input required type="tel" className="form-control" name="Phone" onChange={this.onGetPhone} />
+                                <input required type="tel" className="form-control" name="Phone" onChange={e => contact.Phone = e.target.value} />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="Email1">Email address</label>
-                                <input required type="email" className="form-control" aria-describedby="emailHelp" name="Email" onChange={this.onGetEmail} />
+                                <input required type="text" className="form-control" aria-describedby="emailHelp" name="Email" onChange={e => contact.Email = e.target.value} />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="exampleFormControlSelect1">Status</label>
-                                <select className="form-control" onChange={this.onGetStatus} >
+                                <select className="form-control" onChange={e => contact.Status = e.target.value} >
                                     <option defaultValue>Choose...</option>
                                     <option value="Work">Work</option>
                                     <option value="Family">Family</option>
@@ -127,7 +68,7 @@ class AddContact extends Component {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="exampleFormControlSelect1">Gender</label>
-                                <select className="form-control" onChange={this.onGetGender} >
+                                <select className="form-control" onChange={e => contact.Gender = e.target.value} >
                                     <option defaultValue>Choose...</option>
                                     <option value="men">Men</option>
                                     <option value="women">Women</option>
@@ -135,19 +76,24 @@ class AddContact extends Component {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="Avatar">Avatar</label>
-                                <input required type="number" min="0" max="99" name="Avatar" onChange={this.onGetAvatar} className="form-control" aria-describedby="emailHelp" />
+                                <input required type="number" min="0" max="99" name="Avatar" onChange={e => contact.Avatar = e.target.value} className="form-control" aria-describedby="emailHelp" />
                             </div>
-                            <button type="submit" className="btn btn-primary">Add new contact</button>
+                            <button type="submit" className="btn btn-primary" >Add new contact</button>
                         </form>
                     </div>
                     <div className="col-4">
-                        <img src={Avatar} className="img-thumbnail avatar" alt="..." />
+                        <img src={src} className="img-thumbnail avatar" alt="..." />
                     </div>
                 </div>
             </div>
-        )
-    }
-
+        )   
 }
 
-export default AddContact;
+const mapStateToProps = ({ContactListReducer}) => {
+    const { List } = ContactListReducer;
+    return { List };
+}
+
+const mapDispatchToProps = ( {ContactAdd} );
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddContact);

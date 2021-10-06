@@ -4,3 +4,26 @@ export const GetAllContacts = (ContactList) => {
         payload: ContactList
     }
 }
+
+export const DeleteContact = (ContactList) => {
+    return {
+        type: "DELETE_CONTACT",
+        payload: ContactList
+    }
+}
+
+export const ContactAdd = (ContactList) => {
+    return {
+        type: "ADD_CONTACT",
+        payload: ContactList
+    }
+}
+
+export const EditContact = (ContactList) => {
+    return {
+        type: "EDIT_CONTACT",
+        payload: ContactList
+    }
+}
+
+

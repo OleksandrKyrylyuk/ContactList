@@ -2,91 +2,9 @@ import { Component } from "react";
 import { Redirect } from "react-router-dom";
 
 
-// Import styles
-// import "./AddContact.css";
 
-
-class EditContact extends Component {
-
-    state = {
-        Id: this.props.CurrentContact.Id,
-        Name: this.props.CurrentContact.Name,
-        Phone: this.props.CurrentContact.Phone,
-        Email: this.props.CurrentContact.Email,
-        Gender: this.props.CurrentContact.Gender,
-        Status: this.props.CurrentContact.Status,
-        Avatar: this.props.CurrentContact.Avatar,
-        IsRedirect: false
-    }
-
-    onGetName = (e) => {
-        const name = e.target.value;
-        this.setState({
-            Name: name
-        })
-    }
-
-    onGetPhone = (e) => {
-        const phone = e.target.value;
-        this.setState({
-            Phone: phone
-        })
-    }
-
-    onGetEmail = (e) => {
-        const email = e.target.value;
-        this.setState({
-            Email: email
-        })
-    }
-
-    onGetGender = (e) => {
-        const gender = e.target.value;
-        this.setState({
-            Gender: gender
-        })
-    }
-
-    onGetStatus = (e) => {
-        const status = e.target.value;
-        this.setState({
-            Status: status
-        })
-    }
-
-    onGetAvatar = (e) => {
-        const avatar = e.target.value;
-        this.setState({
-            Avatar: avatar
-        })
-    }
-
-
-    onEditContact = (e) => {
-        e.preventDefault();
-        const { Id, Name, Phone, Email, Gender, Status, Avatar } = this.state
-        const { onEditContact } = this.props;
-        const editedContact = {
-            Id,
-            Name,
-            Phone,
-            Email,
-            Gender,
-            Status,
-            Avatar
-        }
-        onEditContact(editedContact);
-
-        this.setState({
-            IsRedirect: true
-        })
-    }
-
-
-
-    render() {
-
-        let { Gender, Avatar, IsRedirect, Name, Phone, Email, Status } = this.state;
+const EditContact = () => {
+      
         let avatarNumber = Avatar;
         if (IsRedirect === true) {
             return <Redirect to="/" />
@@ -146,7 +64,7 @@ class EditContact extends Component {
                 </div>
             </div>
         )
-    }
+    
 
 }
 
