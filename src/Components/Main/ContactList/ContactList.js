@@ -9,21 +9,18 @@ import Service from "../../../services/ApiServices";
 import { GetAllContacts } from "../../../actions/contactListActions";
 
 const ContactList = ( {List, GetAllContacts, SearchValue} ) => {
-    console.log(SearchValue);
     useEffect(() => {
         Service.GetList()
             .then(data => GetAllContacts(data));
     },[GetAllContacts]);
 
    
-  const searchData = List.filter( (el) => {
-    //   el.Name.toLowerCase().indexOf(SearchValue.toLowerCase()) > 1
-    console.log(SearchValue.toLowerCase().indexOf(SearchValue.toLowerCase()));
+  let searchData = List.filter( (el) => {
+    return (el.Name.toLowerCase()).indexOf(SearchValue.toLowerCase()) > -1
     }
   );
-  console.log(searchData);
 
-    const contact = List.map(item => {
+    const contact = searchData.map(item => {
         return (<ContactItem key={item.Id} {...item}/>)
     })
 
