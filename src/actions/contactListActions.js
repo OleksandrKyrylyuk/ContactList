@@ -3,27 +3,35 @@ export const GetAllContacts = (ContactList) => {
         type: "GET_ALL_CONTACTS",
         payload: ContactList
     }
-}
+};
 
 export const DeleteContact = (ContactList) => {
     return {
         type: "DELETE_CONTACT",
         payload: ContactList
     }
-}
+};
+
+export const ContactEdit = (ContactItemId) => {
+    return {
+        type: "EDIT_CONTACT",
+        payload: ContactItemId
+    }
+};
+
+
 
 export const ContactAdd = (ContactList) => {
     return {
         type: "ADD_CONTACT",
         payload: ContactList
     }
-}
+};
 
-export const EditContact = (ContactList) => {
+export const EditContactList = (ContactList) => {
     return {
-        type: "EDIT_CONTACT",
+        type: "EDIT_CONTACT_LIST",
         payload: ContactList
     }
-}
-
+};
 

@@ -1,5 +1,5 @@
 
-import { useEffect } from "react"
+import { useEffect} from "react"
 import ContactItem from "./ContactItem/ContactItem";
 import { connect } from "react-redux";
 import Service from "../../../services/ApiServices";
@@ -8,12 +8,19 @@ import Service from "../../../services/ApiServices";
 
 import { GetAllContacts } from "../../../actions/contactListActions";
 
+
+
+
 const ContactList = ( {List, GetAllContacts} ) => {
+
 
     useEffect(() => {
         Service.GetList()
-            .then(data => GetAllContacts(data))
+            .then(data => GetAllContacts(data));
     },[GetAllContacts]);
+
+    console.log(List);
+
 
     const contact = List.map(item => {
         return (<ContactItem key={item.Id} {...item}/>)

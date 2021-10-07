@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { DeleteContact } from "../../../../actions/contactListActions";
+import * as actions from "../../../../actions/contactListActions";
 import Service from '../../../../services/ApiServices';
 
-const ContactItem = ({ Id , Name, Avatar, Phone, Email, Status, Gender, List, DeleteContact}) => {
+const ContactItem = ({ Id , Name, Avatar, Phone, Email, Status, Gender, List, DeleteContact, ContactEdit}) => {
     const image = `https://api.randomuser.me/portraits/${Gender}/${Avatar}.jpg`
 
     let statusColor = "";
@@ -15,14 +15,14 @@ const ContactItem = ({ Id , Name, Avatar, Phone, Email, Status, Gender, List, De
         default:
     }
 
-    const onDelete = id => {
+   
+    const onDelete = () => {
         const index = List.findIndex( el => el.Id === Id);
         const tmpList = [...List.slice(0, index), ...List.slice(index + 1)];
         DeleteContact(tmpList);
         Service.UpdateList(tmpList);
     }
-
-    return (
+      return (
 
         <div className="unit">
             <div className="field name">
@@ -45,19 +45,20 @@ const ContactItem = ({ Id , Name, Avatar, Phone, Email, Status, Gender, List, De
             </div>
             <div className="contactIcons">
                 <Link to="/edit-contact">
-                    <i className="far fa-edit fa-2x" onClick={ () => {}} ></i>
+                    <i className="far fa-edit fa-2x" 
+                       onClick={ () => {ContactEdit(Id)} } ></i>
                 </Link>
-                <i className="far fa-trash-alt fa-2x" onClick={onDelete}></i>
+                <i className="far fa-trash-alt fa-2x" onClick={ onDelete }></i>
             </div>
         </div>
     )
 }
 
 const mapStateToProps = ({ContactListReducer}) => {
-    const { List } = ContactListReducer;
-    return { List };
+    const { List, CurrentContact } = ContactListReducer;
+    return { List, CurrentContact };
 }
 
-const mapDispatchToProps = ( {DeleteContact} );
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactItem);
+
+export default connect(mapStateToProps, actions)(ContactItem);
