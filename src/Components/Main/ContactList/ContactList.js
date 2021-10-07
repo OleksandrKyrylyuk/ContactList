@@ -33,7 +33,7 @@ const ContactList = ( {List, GetAllContacts, SearchValue} ) => {
 
 const mapStateToProps = ( {ContactListReducer} ) => {
     const { List, SearchValue } = ContactListReducer;
-    return { List, SearchValue                                                                                                                                                                                                                                                                                     };
+    return { List, SearchValue                                                                                                                                                                                                                                                                                };
 }
 
 const mapDispatchToProps = ( {GetAllContacts} );

@@ -1,9 +1,17 @@
+import { connect } from 'react-redux';
 
-const SideBar = ({ contactCounter, privateCounter, friendCounter, familyCounter, workCounter }) => {
+
+const SideBar = ({ List }) => {
+    let privateCounter = List.filter(el => el.Status === "Private").length;
+    let friendCounter = List.filter(el => el.Status === "Friend").length;
+    let workCounter = List.filter(el => el.Status === "Work").length;
+    let familyCounter = List.filter(el => el.Status === "Family").length;
+
+
     return (
         <div className="col-lg-3 col-md-4 col-sm-12">
             <div className="contacts-labels">
-                <div className="title">All contacts<span>{contactCounter}</span></div>
+                <div className="title">All contacts<span>{List.length}</span></div>
                 <div className="list">
                     <div className="input-group">
                         <input type="text" className="contacts-search" placeholder="Search" />
@@ -27,4 +35,10 @@ const SideBar = ({ contactCounter, privateCounter, friendCounter, familyCounter,
         </div>
     )
 }
-export default SideBar;
+
+const mapStateToProps = ( {ContactListReducer} ) => {
+    const { List } = ContactListReducer;
+    return { List };
+}
+
+export default connect(mapStateToProps)(SideBar);

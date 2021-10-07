@@ -3,7 +3,6 @@ import SideBar from "../SideBar/SideBar";
 import { Link } from "react-router-dom";
 import * as actions from "../../actions/contactListActions";
 import { connect } from 'react-redux';
-import { useEffect } from 'react';
 
 const Main = ({SetSearchValue}) => {
 
