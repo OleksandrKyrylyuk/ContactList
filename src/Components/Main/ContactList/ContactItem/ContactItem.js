@@ -3,9 +3,9 @@ import { connect } from "react-redux";
 import * as actions from "../../../../actions/contactListActions";
 import Service from '../../../../services/ApiServices';
 
-const ContactItem = ({ Id , Name, Avatar, Phone, Email, Status, Gender, List, DeleteContact, ContactEdit}) => {
+const ContactItem = ({ Id , Name, Avatar, Phone, Email, Status, Gender, List, DeleteContact, ContactEdit, EditContactList}) => {
     const image = `https://api.randomuser.me/portraits/${Gender}/${Avatar}.jpg`
-
+     const index = List.findIndex( el => el.Id === Id);
     let statusColor = "";
     switch (Status) {
         case "Friend": statusColor = "lab lab-warning"; break;
@@ -15,12 +15,29 @@ const ContactItem = ({ Id , Name, Avatar, Phone, Email, Status, Gender, List, De
         default:
     }
 
+    const changeStatus = ( status ) => {
+       switch (status) {
+        case "Friend": return "Work";
+        case "Work": return "Family"
+        case "Family": return "Private"
+        case "Private": return "Friend"
+        default:
+       }
+    }
+
    
-    const onDelete = () => {
-        const index = List.findIndex( el => el.Id === Id);
+    const onDelete = async () => {
         const tmpList = [...List.slice(0, index), ...List.slice(index + 1)];
         DeleteContact(tmpList);
-        Service.UpdateList(tmpList);
+        await Service.UpdateList(tmpList);
+    }
+
+    const onStatusChange = async () => {
+        const contact = List[index];
+        contact.Status = changeStatus(contact.Status);
+        const tmp = [...List.slice(0, index), contact , ...List.slice(index + 1)];
+        EditContactList(tmp);
+        await Service.UpdateList(tmp);
     }
       return (
 
@@ -35,7 +52,7 @@ const ContactItem = ({ Id , Name, Avatar, Phone, Email, Status, Gender, List, De
                 <div>
                     <img src={image} alt="Contact foto" className="avatar" /> {Name}
                 </div>
-                <div className={statusColor} onClick={() => {}} >{Status}</div>
+                <div className={statusColor} onClick={() => onStatusChange()} >{Status}</div>
             </div>
             <div className="field phone">
                 {Phone}

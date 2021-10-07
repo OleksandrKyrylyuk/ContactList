@@ -19,8 +19,6 @@ const ContactList = ( {List, GetAllContacts} ) => {
             .then(data => GetAllContacts(data));
     },[GetAllContacts]);
 
-    console.log(List);
-
 
     const contact = List.map(item => {
         return (<ContactItem key={item.Id} {...item}/>)

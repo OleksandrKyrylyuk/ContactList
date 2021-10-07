@@ -10,7 +10,7 @@ const Main = () => {
                 <SideBar />
                 <div className="col-lg-9 col-md-8 col-sm-12">
                     <div className="contacts-list">
-                        <Link to="/new-contact" className="title">Add Contacet</Link>
+                        <Link to="/new-contact" className="title">Add Contact</Link>
 
                         <form className="ac-custom ac-checkbox ac-checkmark" autoComplete="off">
                             <div className="input-group">

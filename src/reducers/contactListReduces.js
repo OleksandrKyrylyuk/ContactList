@@ -31,7 +31,6 @@ const ContactListReducer = (state = initState, action) => {
              }
         
         case "EDIT_CONTACT_LIST":
-            console.log(action.payload);
              return {
                  ...state,
                  List: action.payload
