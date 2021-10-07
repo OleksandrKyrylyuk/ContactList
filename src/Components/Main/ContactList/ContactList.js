@@ -3,6 +3,7 @@ import { useEffect} from "react"
 import ContactItem from "./ContactItem/ContactItem";
 import { connect } from "react-redux";
 import Service from "../../../services/ApiServices";
+import Spinner from "../../Spinner/spinner"
 
 //importActions
 
@@ -26,7 +27,7 @@ const ContactList = ( {List, GetAllContacts, SearchValue} ) => {
 
     return (
         <section>
-            {contact.length > 0 ? contact : <p className="emptyList">Contact list is empty!</p>}
+            {contact.length > 0 ? contact : <Spinner />}
         </section>
     )
 }
