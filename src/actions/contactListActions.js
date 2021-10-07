@@ -35,3 +35,10 @@ export const EditContactList = (ContactList) => {
     }
 };
 
+export const SetSearchValue = (value) => {
+    return {
+        type: "SET_SEARCH_VALUE",
+        payload: value
+    }
+};
+

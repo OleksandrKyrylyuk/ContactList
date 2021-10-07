@@ -1,8 +1,11 @@
 import ContactList from "./ContactList/ContactList";
 import SideBar from "../SideBar/SideBar";
 import { Link } from "react-router-dom";
+import * as actions from "../../actions/contactListActions";
+import { connect } from 'react-redux';
+import { useEffect } from 'react';
 
-const Main = () => {
+const Main = ({SetSearchValue}) => {
 
     return (
         <div className="container bootstrap snippets bootdeys bootdey">
@@ -14,7 +17,7 @@ const Main = () => {
 
                         <form className="ac-custom ac-checkbox ac-checkmark" autoComplete="off">
                             <div className="input-group">
-                                <input type="text" className="contacts-list-search" placeholder="Search" />
+                                <input type="text" className="contacts-list-search" placeholder="Search" onChange={ (e) => SetSearchValue(e.target.value)}/>
                             </div>
                             <div className="unit head">
                                 <div className="field name">
@@ -37,4 +40,6 @@ const Main = () => {
     )
 }
 
-export default Main;
+const mapStateToProps = ( ) => {return {}};
+   
+export default connect(mapStateToProps, actions)(Main);

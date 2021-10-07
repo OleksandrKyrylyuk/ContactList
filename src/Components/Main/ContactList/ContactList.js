@@ -8,17 +8,20 @@ import Service from "../../../services/ApiServices";
 
 import { GetAllContacts } from "../../../actions/contactListActions";
 
-
-
-
-const ContactList = ( {List, GetAllContacts} ) => {
-
-
+const ContactList = ( {List, GetAllContacts, SearchValue} ) => {
+    console.log(SearchValue);
     useEffect(() => {
         Service.GetList()
             .then(data => GetAllContacts(data));
     },[GetAllContacts]);
 
+   
+  const searchData = List.filter( (el) => {
+    //   el.Name.toLowerCase().indexOf(SearchValue.toLowerCase()) > 1
+    console.log(SearchValue.toLowerCase().indexOf(SearchValue.toLowerCase()));
+    }
+  );
+  console.log(searchData);
 
     const contact = List.map(item => {
         return (<ContactItem key={item.Id} {...item}/>)
@@ -32,8 +35,8 @@ const ContactList = ( {List, GetAllContacts} ) => {
 }
 
 const mapStateToProps = ( {ContactListReducer} ) => {
-    const { List } = ContactListReducer;
-    return { List };
+    const { List, SearchValue } = ContactListReducer;
+    return { List, SearchValue                                                                                                                                                                                                                                                                                     };
 }
 
 const mapDispatchToProps = ( {GetAllContacts} );

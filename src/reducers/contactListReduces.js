@@ -35,6 +35,11 @@ const ContactListReducer = (state = initState, action) => {
                  ...state,
                  List: action.payload
              }
+        case "SET_SEARCH_VALUE":
+             return {
+                 ...state,
+                 SearchValue: action.payload
+             }
 
         default:
             return state;
